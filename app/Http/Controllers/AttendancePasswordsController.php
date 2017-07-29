@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UpdateNextPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\AttendancePasswords;
@@ -9,7 +10,7 @@ use App\AttendancePasswords;
 class AttendancePasswordsController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth', ['except' => ['request', 'show']]);
+        $this->middleware('auth', ['except' => ['request', 'show', 'newEvent', 'getPasswords']]);
     }
 
     //show view to request a password
@@ -31,14 +32,15 @@ class AttendancePasswordsController extends Controller
         //if has zero passwords requested insert as first password
         if(count($ap) == 0){
             $this->store(1, $type);
+            $this->newEvent();
             return redirect('/request_password')->with('message', 'O número da sua senha é: 1');
         }else{
             $last = $ap->last()->password;
             $last += 1;
             $this->store($last, $type);
+            $this->newEvent();
             return redirect('/request_password')->with('message', 'O número da sua senha é: ' . $last);
         }
-
     }
 
     //save a new password in database
@@ -49,6 +51,29 @@ class AttendancePasswordsController extends Controller
         $ap->password_type = $pt;
         $ap->save();
     }
+
+    //registry event to show passwords in the view
+    public function newEvent(){
+        $passwords = $this->getPasswords();
+        event(new UpdateNextPasswords($passwords));
+    }
+
+    //bring all passwords
+    public function getPasswords(){
+        $data = AttendancePasswords::all('password', 'id')->sortByDesc('id')->take(3);
+
+        foreach($data as $i => $v){
+            $items[] .= $v['password'];
+        }
+
+        $data = implode(', ', $items);
+        return $data;
+    }
+
+
+
+
+    /*AT THIS POINT, METHODS IS USED FROM ATTENDANTS*/
 
     //call password
     public function call(){

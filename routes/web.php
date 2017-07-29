@@ -22,3 +22,4 @@ Route::post('/request_password', 'AttendancePasswordsController@request');
 Route::get('/call', 'AttendancePasswordsController@call');
 Route::get('/call_again', 'AttendancePasswordsController@callAgain');
 Route::get('/end', 'AttendancePasswordsController@end');
+Route::get('/kkk', 'AttendancePasswordsController@newEvent');
