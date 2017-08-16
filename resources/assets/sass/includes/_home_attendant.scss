@@ -1,0 +1,25 @@
+.error_box{
+  width: 300px;
+  position: absolute;
+  top: 60px;
+  font-size: 14pt;
+  right: -350px;
+  overflow-x: hidden;
+  background: $brand-danger;
+  text-align: center;
+  padding: 20px 10px;
+  color: $body-bg;
+  .fa{
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    cursor: pointer;
+    transition: .4s;
+    &:hover{
+      transform: rotate(360deg);
+    }
+  }
+  p{
+    margin: 0;
+  }
+}

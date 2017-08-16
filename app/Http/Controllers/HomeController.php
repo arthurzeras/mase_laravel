@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\AttendancePasswords;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
+    public function __construct(){
+        $this->middleware('auth', ['except' => ['show']]);
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('home');
+    public function index(){
+        //get last passwords to show in home at the load page.
+        $passwords = new AttendancePasswordsController();
+        $p = $passwords->getPasswords();
+        return view('home', compact('p'));
+    }
+
+    public function show(){
+        return view('call_screen');
     }
 }

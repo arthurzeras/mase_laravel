@@ -1,0 +1,31 @@
+.error_box {
+  width: 300px;
+  position: absolute;
+  top: 60px;
+  font-size: 14pt;
+  right: -350px;
+  overflow-x: hidden;
+  background: #bf5329;
+  text-align: center;
+  padding: 20px 10px;
+  color: #f5f8fa;
+}
+
+.error_box .fa {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  cursor: pointer;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.error_box .fa:hover {
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+}
+
+.error_box p {
+  margin: 0;
+}
+
